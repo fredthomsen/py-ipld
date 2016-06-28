@@ -1,5 +1,6 @@
 from copy import deepcopy
 from multihash import digest
+from multiaddr import Multiaddr
 
 from cbor import dumps, loads, Tag
 
@@ -23,7 +24,9 @@ def marshal(json_data):
             link = di.pop(LINK_SYMBOL)
             if di:
                 raise KeyError('Links must not have siblings')
-            return Tag(LINK_TAG, link)
+            ma = Multiaddr(link)
+
+            return Tag(LINK_TAG, str(ma))
         return di
 
     # TODO: Currently, all keys are being sorted. It is yet to be
